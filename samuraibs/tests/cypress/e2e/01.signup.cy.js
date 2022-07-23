@@ -16,7 +16,14 @@ it(`Dado que quero cadastrar um novo usuário
     Quando enviar o formulário com dados válidos
     Então devo ver a mensagem `, () => {
 
-    const name = 'George Mathias' , email = 'a@gmail.com', pass = 'pwd123'
+    const name = 'George Mathias', email = 'a@gmail.com', pass = 'pwd123'
+
+    cy.task('removeUser', email)
+        .then((result) => {
+            Object.keys(result).forEach((resulta) => {
+                cy.log('result:', resulta);
+            })
+        })
 
     cy.visit("/")
 
@@ -36,13 +43,13 @@ it(`Dado que quero cadastrar um novo usuário
     cy.get('input[placeholder="Nome"]').type(name)
     cy.get('input[placeholder="E-mail"]').type(email)
     cy.get('input[placeholder="Senha"]').type(pass)
-    
+
     cy.contains("button", "Cadastrar").click()
 
     cy.intercept('POST', '/users', {
         statusCode: 200
     }).as('postUser')
-    
+
     // cy.wait('@postUser')
 
     cy.get('.toast')
