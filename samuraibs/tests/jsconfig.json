@@ -1,0 +1,13 @@
+{
+    "include": [
+        "./node_modules/cypress",
+        "cypress/**/*.js"
+    ]
+}
+
+/*
+// percorrer array usando forEach
+Object.keys(response).forEach((key) => {
+        console.log(key + ': ' + response[key]);        
+})
+*/
