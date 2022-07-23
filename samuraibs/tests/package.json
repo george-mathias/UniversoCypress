@@ -6,8 +6,9 @@
   "author": "George Mathias",
   "license": "MIT",
   "devDependencies": {
+    "@faker-js/faker": "^7.3.0",
     "cypress": "^10.3.1",
-    "@faker-js/faker": "^7.3.0"
+    "pg": "^8.7.3"
   },
   "scripts": {
     "test": "npx cypress open"
