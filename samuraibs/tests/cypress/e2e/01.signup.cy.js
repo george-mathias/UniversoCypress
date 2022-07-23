@@ -46,9 +46,9 @@ it(`Dado que quero cadastrar um novo usuário
 
     cy.contains("button", "Cadastrar").click()
 
-    cy.intercept('POST', '/users', {
-        statusCode: 200
-    }).as('postUser')
+    // cy.intercept('POST', '/users', {
+    //     statusCode: 200
+    // }).as('postUser')
 
     // cy.wait('@postUser')
 
