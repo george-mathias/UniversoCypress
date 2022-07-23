@@ -31,7 +31,7 @@ it(`Dado que quero cadastrar um novo usuário
     //     cy.get(selectors.input[selector])
     //         .should('be.visible')
     //         .type(selectors.dados[selector])
-    // })
+    // }) 
 
     cy.get('input[placeholder="Nome"]').type(name)
     cy.get('input[placeholder="E-mail"]').type(email)
