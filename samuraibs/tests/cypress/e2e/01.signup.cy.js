@@ -1,3 +1,5 @@
+import { faker } from '@faker-js/faker'
+
 // não faz parte do treinamento
 // const selectors = {
 //     input: {
@@ -16,7 +18,7 @@ it(`Dado que quero cadastrar um novo usuário
     Quando enviar o formulário com dados válidos
     Então devo ver a mensagem `, () => {
 
-    const name = 'George Mathias', email = 'a@gmail.com', pass = 'pwd123'
+    const name = 'George Mathias' , email = faker.internet.email().toLowerCase(), pass = 'pwd123'
 
     cy.visit("/")
 
@@ -36,4 +38,11 @@ it(`Dado que quero cadastrar um novo usuário
     cy.get('input[placeholder="Nome"]').type(name)
     cy.get('input[placeholder="E-mail"]').type(email)
     cy.get('input[placeholder="Senha"]').type(pass)
+
+    cy.contains("button", "Cadastrar").click()
+
+    cy.get('.toast')
+        .should('be.visible')
+        .find('p')
+        .should('have.text', 'Agora você pode fazer seu login no Samurai Barbershop!')
 })
