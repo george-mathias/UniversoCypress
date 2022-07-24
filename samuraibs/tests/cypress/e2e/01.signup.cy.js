@@ -1,3 +1,4 @@
+
 // não faz parte do treinamento
 // const selectors = {
 //     input: {
@@ -51,9 +52,9 @@ describe('cadastro', () => {
             //         .type(selectors.dados[selector])
             // }) 
 
-            cy.get('input[placeholder="Nome"]').type(user.name)
-            cy.get('input[placeholder="E-mail"]').type(user.email)
-            cy.get('input[placeholder="Senha"]').type(user.pass)
+            cy.get('input[placeholder^="Nome"]').type(user.name)
+            cy.get('input[placeholder$="email"]').type(user.email)
+            cy.get('input[placeholder*="senha"]').type(user.pass)
 
             cy.contains("button", "Cadastrar").click()
 
@@ -93,17 +94,17 @@ describe('cadastro', () => {
 
         it(`Dado que quero cadastrar um novo usuário
             Quando enviar o formulário com dados válidos
-            Então não deve cadastrar o usuário
-            E deve exibir uma mensagem de falha no cadastro`, () => {
+            Então não deve realizar o cadastrar
+            E deve exibir uma mensagem email já cadastrado`, () => {
 
             cy.visit("/signup")
 
             cy.contains('h1', "Faça seu cadastro")
                 .should('have.text', 'Faça seu cadastro')
 
-            cy.get('input[placeholder="Nome"]').type(user.name)
-            cy.get('input[placeholder="E-mail"]').type(user.email)
-            cy.get('input[placeholder="Senha"]').type(user.password)
+                cy.get('input[placeholder^="Nome"]').type(user.name) // começa com
+                cy.get('input[placeholder$="email"]').type(user.email) // termina com
+                cy.get('input[placeholder*="senha"]').type(user.password) // contém
 
             cy.contains("button", "Cadastrar").click()
 
