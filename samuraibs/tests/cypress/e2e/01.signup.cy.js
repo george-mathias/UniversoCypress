@@ -14,70 +14,103 @@
 
 describe('cadastro', () => {
 
-    const user = {
-        name: 'George Mathias',
-        email: 'a@gmail.com',
-        pass: 'pwd123'
-    }
+    context('quando o usuário é novato', () => {
+        const user = {
+            name: "George Mathias",
+            email: "a@gmail.com",
+            pass: "pwd123"
+        }
 
-    it(`Dado que quero cadastrar um novo usuário
-        Quando enviar o formulário com dados válidos
-        Então devo ver a mensagem `, () => {
+        before(() => {
 
-        cy.task('removeUser', user.email)
-            .then((result) => {
-                Object.keys(result).forEach((resulta) => {
-                    cy.log('result:', resulta);
+            cy.task('removeUser', user.email)
+                .then((result) => {
+                    Object.keys(result).forEach((resulta) => {
+                        cy.log('result:', resulta);
+                    })
                 })
+        });
+
+        it(`Dado que quero cadastrar um novo usuário
+            Quando enviar o formulário com dados válidos
+            Então deve cadastrar o usuário
+            E deve exibir uma mensagem de sucesso`, () => {
+
+            cy.visit("/")
+
+            cy.contains("a", "Criar conta")
+                .click()
+
+            cy.contains('h1', "Faça seu cadastro")
+                .should('have.text', 'Faça seu cadastro')
+
+            // não faz parte do treinamento
+            // Object.keys(selectors.input).forEach((selector) => {
+            //     cy.get(selectors.input[selector])
+            //         .should('be.visible')
+            //         .type(selectors.dados[selector])
+            // }) 
+
+            cy.get('input[placeholder="Nome"]').type(user.name)
+            cy.get('input[placeholder="E-mail"]').type(user.email)
+            cy.get('input[placeholder="Senha"]').type(user.pass)
+
+            cy.contains("button", "Cadastrar").click()
+
+            cy.get('.toast')
+                .should('be.visible')
+                .find('p')
+                .should('have.text', 'Agora você se tornou um(a) Samurai, faça seu login para ver seus agendamentos!')
+        })
+    });
+
+
+    context('deve exibir email já cadastrado', () => {
+        const user = {
+            name: "George Mathias",
+            email: "a@gmail.com",
+            password: "pwd123",
+            is_provider: true
+        }
+
+        before(() => {
+            cy.task('removeUser', user.email)
+                .then((result) => {
+                    Object.keys(result).forEach((resulta) => {
+                        cy.log('result:', resulta);
+                    })
+                })
+
+            cy.request(
+                'POST',
+                'http://localhost:3333/users',
+                user
+            ).then(function (response) {
+                cy.log('res', response.status)
+                expect(response.status).to.eq(200)
             })
+        });
 
-        cy.visit("/")
+        it(`Dado que quero cadastrar um novo usuário
+            Quando enviar o formulário com dados válidos
+            Então não deve cadastrar o usuário
+            E deve exibir uma mensagem de falha no cadastro`, () => {
 
-        cy.contains("a", "Criar conta")
-            .click()
+            cy.visit("/signup")
 
-        cy.contains('h1', "Faça seu cadastro")
-            .should('have.text', 'Faça seu cadastro')
+            cy.contains('h1', "Faça seu cadastro")
+                .should('have.text', 'Faça seu cadastro')
 
-        // não faz parte do treinamento
-        // Object.keys(selectors.input).forEach((selector) => {
-        //     cy.get(selectors.input[selector])
-        //         .should('be.visible')
-        //         .type(selectors.dados[selector])
-        // }) 
+            cy.get('input[placeholder="Nome"]').type(user.name)
+            cy.get('input[placeholder="E-mail"]').type(user.email)
+            cy.get('input[placeholder="Senha"]').type(user.password)
 
-        cy.get('input[placeholder="Nome"]').type(user.name)
-        cy.get('input[placeholder="E-mail"]').type(user.email)
-        cy.get('input[placeholder="Senha"]').type(user.pass)
+            cy.contains("button", "Cadastrar").click()
 
-        cy.contains("button", "Cadastrar").click()
-
-        cy.get('.toast')
-            .should('be.visible')
-            .find('p')
-            .should('have.text', 'Agora você se tornou um(a) Samurai, faça seu login para ver seus agendamentos!')
-    })
-    it(`Dado que quero validar a mensagem de email já cadastrado
-        Quando enviar o formulário com email a@gmail.com
-        Então deve exibir email já cadastrado `, () => {
-
-        cy.visit("/")
-
-        cy.contains("a", "Criar conta")
-            .click()
-
-        cy.contains('h1', "Faça seu cadastro")
-            .should('have.text', 'Faça seu cadastro')
-
-        cy.get('input[placeholder="Nome"]').type(user.name)
-        cy.get('input[placeholder="E-mail"]').type(user.email)
-        cy.get('input[placeholder="Senha"]').type(user.pass)
-
-        cy.contains("button", "Cadastrar").click()
-
-        cy.get('.toast')
-            .should('be.visible')
-            .find('p')
-            .should('have.text', 'Email já cadastrado para outro usuário.')
-    })
+            cy.get('.toast')
+                .should('be.visible')
+                .find('p')
+                .should('have.text', 'Email já cadastrado para outro usuário.')
+        })
+    });
 });
