@@ -50,7 +50,7 @@ describe('cadastro', () => {
         cy.get('.toast')
             .should('be.visible')
             .find('p')
-            .should('have.text', 'Agora você pode fazer seu login no Samurai Barbershop!')
+            .should('have.text', 'Agora você se tornou um(a) Samurai, faça seu login para ver seus agendamentos!')
     })
     it(`Dado que quero validar a mensagem de email já cadastrado
     Quando enviar o formulário com email a@gmail.com
