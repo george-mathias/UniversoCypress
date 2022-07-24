@@ -27,7 +27,7 @@ describe('cadastro', () => {
             signUpPage.go()
             signUpPage.form(user)
             signUpPage.submit()
-            signUpPage.toastHaveText('Agora você se tornou um(a) Samurai, faça seu login para ver seus agendamentos!')
+            signUpPage.toast.shouldHaveTest('Agora você se tornou um(a) Samurai, faça seu login para ver seus agendamentos!')
         })
     });
 
@@ -66,7 +66,7 @@ describe('cadastro', () => {
                 signUpPage.go()
                 signUpPage.form(user)
                 signUpPage.submit()
-                signUpPage.toastHaveText('Email já cadastrado para outro usuário.')
+                signUpPage.toast.shouldHaveTest('Email já cadastrado para outro usuário.')
         })
     });
 });
