@@ -12,67 +12,69 @@
 //     }
 // }
 
-it(`Dado que quero cadastrar um novo usuário
+describe('cadastro', () => {
+    it(`Dado que quero cadastrar um novo usuário
     Quando enviar o formulário com dados válidos
     Então devo ver a mensagem `, () => {
 
-    const name = 'George Mathias', email = 'a@gmail.com', pass = 'pwd123'
+        const name = 'George Mathias', email = 'a@gmail.com', pass = 'pwd123'
 
-    cy.task('removeUser', email)
-        .then((result) => {
-            Object.keys(result).forEach((resulta) => {
-                cy.log('result:', resulta);
+        cy.task('removeUser', email)
+            .then((result) => {
+                Object.keys(result).forEach((resulta) => {
+                    cy.log('result:', resulta);
+                })
             })
-        })
 
-    cy.visit("/")
+        cy.visit("/")
 
-    cy.contains("a", "Criar conta")
-        .click()
+        cy.contains("a", "Criar conta")
+            .click()
 
-    cy.contains('h1', "Faça seu cadastro")
-        .should('have.text', 'Faça seu cadastro')
+        cy.contains('h1', "Faça seu cadastro")
+            .should('have.text', 'Faça seu cadastro')
 
-    // não faz parte do treinamento
-    // Object.keys(selectors.input).forEach((selector) => {
-    //     cy.get(selectors.input[selector])
-    //         .should('be.visible')
-    //         .type(selectors.dados[selector])
-    // }) 
+        // não faz parte do treinamento
+        // Object.keys(selectors.input).forEach((selector) => {
+        //     cy.get(selectors.input[selector])
+        //         .should('be.visible')
+        //         .type(selectors.dados[selector])
+        // }) 
 
-    cy.get('input[placeholder="Nome"]').type(name)
-    cy.get('input[placeholder="E-mail"]').type(email)
-    cy.get('input[placeholder="Senha"]').type(pass)
+        cy.get('input[placeholder="Nome"]').type(name)
+        cy.get('input[placeholder="E-mail"]').type(email)
+        cy.get('input[placeholder="Senha"]').type(pass)
 
-    cy.contains("button", "Cadastrar").click()
+        cy.contains("button", "Cadastrar").click()
 
-    cy.get('.toast')
-        .should('be.visible')
-        .find('p')
-        .should('have.text', 'Agora você pode fazer seu login no Samurai Barbershop!')
-})
-it.only(`Dado que quero validar a mensagem de email já cadastrado
+        cy.get('.toast')
+            .should('be.visible')
+            .find('p')
+            .should('have.text', 'Agora você pode fazer seu login no Samurai Barbershop!')
+    })
+    it(`Dado que quero validar a mensagem de email já cadastrado
     Quando enviar o formulário com email a@gmail.com
     Então deve exibir email já cadastrado `, () => {
 
-    const name = 'George Mathias', email = 'a@gmail.com', pass = 'pwd123'
+        const name = 'George Mathias', email = 'a@gmail.com', pass = 'pwd123'
 
-    cy.visit("/")
+        cy.visit("/")
 
-    cy.contains("a", "Criar conta")
-        .click()
+        cy.contains("a", "Criar conta")
+            .click()
 
-    cy.contains('h1', "Faça seu cadastro")
-        .should('have.text', 'Faça seu cadastro')
+        cy.contains('h1', "Faça seu cadastro")
+            .should('have.text', 'Faça seu cadastro')
 
-    cy.get('input[placeholder="Nome"]').type(name)
-    cy.get('input[placeholder="E-mail"]').type(email)
-    cy.get('input[placeholder="Senha"]').type(pass)
+        cy.get('input[placeholder="Nome"]').type(name)
+        cy.get('input[placeholder="E-mail"]').type(email)
+        cy.get('input[placeholder="Senha"]').type(pass)
 
-    cy.contains("button", "Cadastrar").click()
+        cy.contains("button", "Cadastrar").click()
 
-    cy.get('.toast')
-        .should('be.visible')
-        .find('p')
-        .should('have.text', 'Email já cadastrado para outro usuário.')
-})
+        cy.get('.toast')
+            .should('be.visible')
+            .find('p')
+            .should('have.text', 'Email já cadastrado para outro usuário.')
+    })
+});
