@@ -13,6 +13,8 @@
 //     }
 // }
 
+import { el } from './elements'
+
 class SignUpPage {
 
     go() {
@@ -28,16 +30,16 @@ class SignUpPage {
             //         .type(selectors.dados[selector])
             // }) 
 
-        cy.get('input[placeholder^="Nome"]').type(user.name) // começa com
-        cy.get('input[placeholder$="email"]').type(user.email) // termina com
-        cy.get('input[placeholder*="senha"]').type(user.password) // contém
+        cy.get(el.name).type(user.name) // começa com
+        cy.get(el.email).type(user.email) // termina com
+        cy.get(el.password).type(user.password) // contém
     }
     submit() {
-        cy.contains("button", "Cadastrar").click()
+        cy.contains(el.signUpButton).click()
     }
 
     toastHaveText(expectText) {
-        cy.get('.toast')
+        cy.get(el.toast)
             .should('be.visible')
             .find('p')
             .should('have.text', expectText)
