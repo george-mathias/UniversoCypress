@@ -63,10 +63,47 @@ describe('cadastro', () => {
             Então não deve realizar o cadastrar
             E deve exibir uma mensagem email já cadastrado`, () => {
 
-                signUpPage.go()
+            signUpPage.go()
+            signUpPage.form(user)
+            signUpPage.submit()
+            signUpPage.toast.shouldHaveTest('Email já cadastrado para outro usuário.')
+        })
+    });
+
+    context('quando o email já existe', () => {
+        const user = {
+            name: "Elizabeth Olsen",
+            email: "liza.yahoo.com",
+            password: "pwd123"
+        }
+
+        it('deve exibir mensagem de alerta', () => {
+            signUpPage.go()
+            signUpPage.form(user)
+            signUpPage.submit()
+            signUpPage.alertHaveText('Informe um email válido')
+        });
+    });
+
+    context('quando a senha é muito curta', () => {
+
+        const passwords = ['1', '2a', 'ab3', 'abc4', 'ab#c5']
+
+        beforeEach(() => {
+            signUpPage.go()
+        })
+
+        passwords.forEach(p => {
+            it.only(`não deve cadastrar com a senha ${p}`, () => {
+                const user = { name: 'Jason Friday', email: 'jason@gmail.com', password: p }
+
                 signUpPage.form(user)
                 signUpPage.submit()
-                signUpPage.toast.shouldHaveTest('Email já cadastrado para outro usuário.')
+            });    
+        })
+
+        afterEach(() => {
+            signUpPage.alertHaveText('Pelo menos 6 caracteres')
         })
     });
 });
