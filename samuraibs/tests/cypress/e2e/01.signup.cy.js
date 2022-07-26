@@ -94,7 +94,7 @@ describe('cadastro', () => {
         })
 
         passwords.forEach(p => {
-            it.only(`não deve cadastrar com a senha ${p}`, () => {
+            it(`não deve cadastrar com a senha ${p}`, () => {
                 const user = { name: 'Jason Friday', email: 'jason@gmail.com', password: p }
 
                 signUpPage.form(user)
@@ -104,6 +104,26 @@ describe('cadastro', () => {
 
         afterEach(() => {
             signUpPage.alertHaveText('Pelo menos 6 caracteres')
+        })
+    });
+
+    context('quando não preencho nenhum dos campos', () => {
+        
+        const alertMessages = [
+            'Nome é obrigatório',
+            'E-mail é obrigatório',
+            'Senha é obrigatória'
+        ]
+
+        before(() => {
+            signUpPage.go()
+            signUpPage.submit()
+        });
+
+        alertMessages.forEach((alert) => {
+            it.only(`deve exibir ${alert.toLocaleLowerCase()}`, () => {
+                signUpPage.alertHaveText(alert)
+            });
         })
     });
 });
