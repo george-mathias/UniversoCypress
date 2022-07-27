@@ -18,7 +18,7 @@ describe('login', () => {
             loginPage.form(user)
             loginPage.submit()
 
-            dashPage.userLoggedIn(user.name)
+            dashPage.header.userLoggedIn(user.name)
         });
     });
 });
