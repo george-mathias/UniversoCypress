@@ -26,4 +26,27 @@ describe('login', () => {
             dashPage.header.userLoggedIn(user.name)
         });
     });
+
+    context('quando o usuário é bom mas a senha está incorreta', () => {
+        
+        let user = {
+            name: 'Celso Kamura',
+            email: 'kamura@samuraibs.com',
+            password: 'pwd123',
+            is_provider: true
+        }
+
+        before(() => {
+            cy.postUser(user).then(() => {
+                user.password = 'abc123'
+            })
+        });
+
+        it.only('deve notificar erro de credenciais', () => {
+            loginPage.go()
+            loginPage.form(user)
+            loginPage.submit()
+            
+        });
+    });
 });
