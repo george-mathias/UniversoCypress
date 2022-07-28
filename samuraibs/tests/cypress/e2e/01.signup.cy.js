@@ -2,16 +2,17 @@ import signUpPage from '../support/pages/signup'
 
 describe('cadastro', () => {
 
+    before(() => {
+        cy.fixture("george").then(function(george) {
+            this.george = george
+        })
+    });
+
     context('quando o usuário é novato', () => {
-        const user = {
-            name: "George Mathias",
-            email: "a@gmail.com",
-            password: "pwd123"
-        }
 
-        before(() => {
+        before(function() {
 
-            cy.task('removeUser', user.email)
+            cy.task('removeUser', this.george.email)
                 .then((result) => {
                     Object.keys(result).forEach((resulta) => {
                         cy.log('result:', resulta);
@@ -19,13 +20,13 @@ describe('cadastro', () => {
                 })
         });
 
-        it(`Dado que quero cadastrar um novo usuário
+        it.only(`Dado que quero cadastrar um novo usuário
             Quando enviar o formulário com dados válidos
             Então deve cadastrar o usuário
-            E deve exibir uma mensagem de sucesso`, () => {
+            E deve exibir uma mensagem de sucesso`, function() {
 
             signUpPage.go()
-            signUpPage.form(user)
+            signUpPage.form(this.george)
             signUpPage.submit()
             signUpPage.toast.shouldHaveText('Agora você se tornou um(a) Samurai, faça seu login para ver seus agendamentos!')
         })
