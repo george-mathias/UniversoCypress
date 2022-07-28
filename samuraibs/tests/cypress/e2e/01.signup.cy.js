@@ -3,16 +3,19 @@ import signUpPage from '../support/pages/signup'
 describe('cadastro', () => {
 
     before(() => {
-        cy.fixture("george").then(function(george) {
-            this.george = george
+        cy.fixture('signup').then(function (signup) {
+            this.success = signup.success
+            this.email_duplicado = signup.email_duplicado
+            this.email_invalido = signup.email_invalido
+            this.short_password = signup.short_password
         })
     });
 
     context('quando o usuário é novato', () => {
 
-        before(function() {
+        before(function () {
 
-            cy.task('removeUser', this.george.email)
+            cy.task('removeUser', this.email_duplicado.email)
                 .then((result) => {
                     Object.keys(result).forEach((resulta) => {
                         cy.log('result:', resulta);
@@ -20,52 +23,41 @@ describe('cadastro', () => {
                 })
         });
 
-        it.only(`Dado que quero cadastrar um novo usuário
+        it(`Dado que quero cadastrar um novo usuário
             Quando enviar o formulário com dados válidos
             Então deve cadastrar o usuário
-            E deve exibir uma mensagem de sucesso`, function() {
+            E deve exibir uma mensagem de sucesso`, function () {
 
             signUpPage.go()
-            signUpPage.form(this.george)
+            signUpPage.form(this.email_duplicado)
             signUpPage.submit()
             signUpPage.toast.shouldHaveText('Agora você se tornou um(a) Samurai, faça seu login para ver seus agendamentos!')
         })
     });
 
     context('deve exibir email já cadastrado', () => {
-        const user = {
-            name: "George Mathias",
-            email: "a@gmail.com",
-            password: "pwd123",
-            is_provider: true
-        }
 
-        before(() => {
-            cy.postUser(user)
+        before(function () {
+            cy.postUser(this.email_duplicado)
         });
 
         it(`Dado que quero cadastrar um novo usuário
             Quando enviar o formulário com dados válidos
             Então não deve realizar o cadastrar
-            E deve exibir uma mensagem email já cadastrado`, () => {
+            E deve exibir uma mensagem email já cadastrado`, function () {
 
             signUpPage.go()
-            signUpPage.form(user)
+            signUpPage.form(this.email_duplicado)
             signUpPage.submit()
             signUpPage.toast.shouldHaveText('Email já cadastrado para outro usuário.')
         })
     });
 
     context('quando o email já existe', () => {
-        const user = {
-            name: "Elizabeth Olsen",
-            email: "liza.yahoo.com",
-            password: "pwd123"
-        }
 
-        it('deve exibir mensagem de alerta', () => {
+        it('deve exibir mensagem de alerta', function () {
             signUpPage.go()
-            signUpPage.form(user)
+            signUpPage.form(this.email_invalido)
             signUpPage.submit()
             signUpPage.alert.haveText('Informe um email válido')
         });
@@ -80,12 +72,12 @@ describe('cadastro', () => {
         })
 
         passwords.forEach(p => {
-            it(`não deve cadastrar com a senha ${p}`, () => {
-                const user = { name: 'Jason Friday', email: 'jason@gmail.com', password: p }
+            it(`não deve cadastrar com a senha ${p}`, function () {
+                this.short_password.password = p
 
-                signUpPage.form(user)
+                signUpPage.form(this.short_password)
                 signUpPage.submit()
-            });    
+            });
         })
 
         afterEach(() => {
@@ -94,7 +86,7 @@ describe('cadastro', () => {
     });
 
     context('quando não preencho nenhum dos campos', () => {
-        
+
         const alertMessages = [
             'Nome é obrigatório',
             'E-mail é obrigatório',
