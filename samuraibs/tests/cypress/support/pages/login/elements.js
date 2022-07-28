@@ -3,5 +3,6 @@
 exports.el = {
     name: 'input[placeholder$=email]',
     password: 'input[placeholder*=senha]',
-    signUpButton: ("button", "Entrar")
+    signUpButton: ("button", "Entrar"),
+    alertEmailError: '.alert-error'
 }

@@ -52,4 +52,32 @@ describe('login', () => {
             loginPage.toast.shouldHaveText(message)
         });
     });
+
+    context('quando o formato do email é inválido', () => {
+        
+        const emails = [
+            'papito.com.br',
+            'gmail.com',
+            '@gmail.com',
+            '@',
+            'papito@',
+            '111',
+            '&*^&^&*',
+            'xpto123'
+        ]
+        before(() => {
+            loginPage.go()
+        });
+
+        emails.forEach((email) => {
+            it.only(`não deve logar com o email: ${email}`, () => {
+                const user = { email: email, password: 'pwd123'}
+
+                loginPage.form(user)
+                loginPage.submit()
+
+                loginPage.alertHaveText('Informe um email válido')
+            });
+        })
+    });
 });
