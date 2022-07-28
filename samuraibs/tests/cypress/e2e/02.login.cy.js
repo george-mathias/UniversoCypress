@@ -76,7 +76,7 @@ describe('login', () => {
                 loginPage.form(user)
                 loginPage.submit()
 
-                loginPage.alertHaveText('Informe um email válido')
+                loginPage.alert.haveText('Informe um email válido')
             });
         })
     });
@@ -94,8 +94,8 @@ describe('login', () => {
         });
 
         alertMessages.forEach((alert) => {
-            it.only(`deve exibir ${alert.toLocaleLowerCase()}`, () => {
-                loginPage.alertHaveText(alert)
+            it(`deve exibir ${alert.toLocaleLowerCase()}`, () => {
+                loginPage.alert.haveText(alert)
             });
         })
     });
