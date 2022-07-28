@@ -42,11 +42,14 @@ describe('login', () => {
             })
         });
 
-        it.only('deve notificar erro de credenciais', () => {
+        it('deve notificar erro de credenciais', () => {
             loginPage.go()
             loginPage.form(user)
             loginPage.submit()
             
+            const message = 'Ocorreu um erro ao fazer login, verifique suas credenciais.'
+
+            loginPage.toast.shouldHaveText(message)
         });
     });
 });

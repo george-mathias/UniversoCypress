@@ -1,6 +1,11 @@
 import { el } from './elements'
+import toast from '../../components/toast'
 
-class loginPage {
+class LoginPage {
+    
+    constructor() {
+        this.toast = toast
+    }
 
     go() {
         cy.visit('/')
@@ -16,4 +21,4 @@ class loginPage {
     }
 }
 
-export default new loginPage()
+export default new LoginPage()
