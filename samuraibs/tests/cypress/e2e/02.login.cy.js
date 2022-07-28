@@ -70,13 +70,32 @@ describe('login', () => {
         });
 
         emails.forEach((email) => {
-            it.only(`não deve logar com o email: ${email}`, () => {
+            it(`não deve logar com o email: ${email}`, () => {
                 const user = { email: email, password: 'pwd123'}
 
                 loginPage.form(user)
                 loginPage.submit()
 
                 loginPage.alertHaveText('Informe um email válido')
+            });
+        })
+    });
+
+    context('quando não preencho nenhum dos campos', () => {
+        
+        const alertMessages = [
+            'E-mail é obrigatório',
+            'Senha é obrigatória'
+        ]
+
+        before(() => {
+            loginPage.go()
+            loginPage.submit()
+        });
+
+        alertMessages.forEach((alert) => {
+            it.only(`deve exibir ${alert.toLocaleLowerCase()}`, () => {
+                loginPage.alertHaveText(alert)
             });
         })
     });
