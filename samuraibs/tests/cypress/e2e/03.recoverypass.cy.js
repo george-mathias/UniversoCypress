@@ -1,4 +1,5 @@
 import forgotPassPage from "../support/pages/forgotpass"
+import resetPassPage from '../support/pages/resetpass'
 
 describe('resgate de senha', () => {
 
@@ -38,8 +39,15 @@ describe('resgate de senha', () => {
                 })
         });
 
-        it.only('deve poder cadastrar uma nova senha', function () {
+        it('deve poder cadastrar uma nova senha', function () {
             
+            const message = 'Agora você já pode logar com a sua nova senha secreta.'
+            
+            resetPassPage.go(token)
+            resetPassPage.form('abc123', 'abc123')
+            resetPassPage.submit()
+
+            resetPassPage.toast.shouldHaveText(message)
         });
     });
 });
