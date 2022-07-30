@@ -20,11 +20,32 @@ describe('dashboard', () => {
         before(function () {
             cy.postUser(data.customer)
             cy.postUser(data.samurai)
+            cy.apiLogin(data.customer)
+            cy.log('apiToken: ', Cypress.env('api'))
         });
-        it('o mesmo deve ser exibido no dashboard', () => {
-
+        it('o mesmo deve ser exibido no dashboard', function() {
+            cy.log(data)
         });
 
     });
 
 });
+
+Cypress.Commands.add('apiLogin', (user) => {
+
+    const payload = {
+        email: user.email,
+        password: user.password
+    }
+
+    cy.request({
+        method: "POST",
+        url: "http://localhost:3333/sessions",
+        body: payload
+    }).then((response) => {
+        expect(response.status).to.eq(200)
+        cy.log(response.body.token)
+        Cypress.env('apiToken', response.body.token)
+    })
+    
+})
