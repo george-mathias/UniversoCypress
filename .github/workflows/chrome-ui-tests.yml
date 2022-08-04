@@ -31,7 +31,8 @@ jobs:
             uses: cypress-io/github-action@v4
             with:
               # we have already installed all dependencies above
-              install-command: samuraibs/tests/yarn install
+              working-directory: samuraibs/tests/
+              install-command: yarn install
               wait-on: 'https://samuraibs-web-george.herokuapp.com/'
               wait-on-timeout: 120
               browser: chrome
