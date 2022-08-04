@@ -21,7 +21,7 @@ describe('dashboard', () => {
             cy.apiLogin(provider, true)
 
             dashPage.calendarShouldBeVisible()
-            dashPage.selectDay(Cypress.env('appointmentDay'))
+            dashPage.selectDay(Cypress.env('appointmentDate'))
             dashPage.appointmentShouldBe(customer, appointment.hour)
 
         });

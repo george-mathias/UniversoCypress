@@ -68,7 +68,7 @@ Cypress.Commands.add('createAppointment', (hour) => {
     let now = new Date()
     now.setDate(now.getDate() + 1)
 
-    Cypress.env('appointmentDay', now.getDate())
+    Cypress.env('appointmentDate', now)
 
     const date = moment(now).format(`YYYY-MM-DD ${hour}:00`)
 
@@ -112,7 +112,7 @@ Cypress.Commands.add('apiLogin', (user, setLocalStorage = false) => {
         }
         
     })
-    
+
     if (setLocalStorage) cy.visit('/dashboard')
 
 })
