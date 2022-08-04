@@ -25,6 +25,15 @@
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
 import moment from 'moment'
+import loginPage from './pages/login'
+import dashPage from './pages/dash'
+
+Cypress.Commands.add('uiLogin', (user) => {
+     loginPage.go()
+     loginPage.form(user)
+     loginPage.submit()
+     dashPage.header.userLoggedIn(user.name)
+})
 
 Cypress.Commands.add('postUser', (user) => {
     cy.task('removeUser', user.email)
