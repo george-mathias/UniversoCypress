@@ -20,4 +20,4 @@ jobs:
 
       # Runs a single command using the runners shell
       - name: List files project
-        run: ls -l
+        run: cd /samuraibs/tests ls -l
