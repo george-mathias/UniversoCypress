@@ -6,6 +6,7 @@ const { pool, Pool } = require('pg')
 module.exports = defineConfig({
   e2e: {
     baseUrl: "https://samuraibs-web-george.herokuapp.com/",
+    defaultCommandTimeout: 30000,
     viewportWidth: 1440,
     viewportHeight: 900,
 
