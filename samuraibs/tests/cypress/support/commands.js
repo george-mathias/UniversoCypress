@@ -45,7 +45,7 @@ Cypress.Commands.add('postUser', (user) => {
 
     cy.request(
         'POST',
-        'http://localhost:3333/users',
+        'https://samuraibs-api-george.herokuapp.com/users',
         user
     ).then(function (response) {
         // cy.log('res', response.status)
@@ -56,7 +56,7 @@ Cypress.Commands.add('postUser', (user) => {
 Cypress.Commands.add('recoveryPass', (email) => {
     cy.request(
         'POST',
-        'http://localhost:3333/password/forgot',
+        'https://samuraibs-api-george.herokuapp.com/password/forgot',
         { email: email }
     ).then((response) => {
         expect(response.status).to.eq(204)
@@ -79,7 +79,7 @@ Cypress.Commands.add('createAppointment', (hour) => {
 
     cy.request({
         method: "POST",
-        url: "http://localhost:3333/appointments",
+        url: "https://samuraibs-api-george.herokuapp.com/appointments",
         body: payload,
         headers: {
             authorization: `Bearer ${Cypress.env('apiToken')}`
@@ -98,7 +98,7 @@ Cypress.Commands.add('apiLogin', (user, setLocalStorage = false) => {
 
     cy.request({
         method: "POST",
-        url: "http://localhost:3333/sessions",
+        url: "https://samuraibs-api-george.herokuapp.com/sessions",
         body: payload
     }).then((response) => {
         expect(response.status).to.eq(200)
@@ -120,7 +120,7 @@ Cypress.Commands.add('apiLogin', (user, setLocalStorage = false) => {
 Cypress.Commands.add('setProviderId', (providerEmail) => {
     cy.request({
         method: "GET",
-        url: "http://localhost:3333/providers",
+        url: "https://samuraibs-api-george.herokuapp.com/providers",
         headers: {
             authorization: `Bearer ${Cypress.env('apiToken')}`
         }
