@@ -25,15 +25,15 @@ jobs:
           - name: Ping barbershop API
             uses: Leocardoso94/is-my-site-up@v1.2
             with:
-              site: 'https://samuraibs-api-george.herokuapp.com/'
+              site: https://samuraibs-api-george.herokuapp.com
          
           - name: 'UI Tests - Chrome'
             uses: cypress-io/github-action@v4
             with:
               # we have already installed all dependencies above
-              working-directory: samuraibs/tests/
+              working-directory: samuraibs/tests/yarn.lock
               install-command: yarn install
-              wait-on: 'https://samuraibs-web-george.herokuapp.com/'
+              wait-on: https://samuraibs-web-george.herokuapp.com
               wait-on-timeout: 120
               browser: chrome
               record: true
