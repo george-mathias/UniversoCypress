@@ -5,7 +5,7 @@ const { pool, Pool } = require('pg')
 
 module.exports = defineConfig({
   e2e: {
-    baseUrl: "http://localhost:3000",
+    baseUrl: "https://samuraibs-web-george.herokuapp.com/",
     viewportWidth: 1440,
     viewportHeight: 900,
     projectId: "tq89w3",
